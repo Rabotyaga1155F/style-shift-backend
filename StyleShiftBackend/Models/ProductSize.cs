@@ -3,23 +3,23 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace StyleShiftBackend.Models;
 
-[Table("favorites")]
-public class Favorite
+[Table("product_sizes")]
+public class ProductSize
 {
     [Key]
     [Column("id")]
-    public string FavoriteID { get; set; }
-
-    [Required]
-    [Column("user_id")]
-    public string UserID { get; set; }
+    public string ProductSizeID { get; set; }= Guid.NewGuid().ToString();
 
     [Required]
     [Column("product_id")]
     public string ProductID { get; set; }
 
-    [ForeignKey(nameof(UserID))]
-    public CustomUser User { get; set; } = null!;
+    [Required]
+    [Column("size")]
+    public string Size { get; set; } = null!;
+
+    [Column("stock")]
+    public int Stock { get; set; }
 
     [ForeignKey(nameof(ProductID))]
     public Product Product { get; set; } = null!;

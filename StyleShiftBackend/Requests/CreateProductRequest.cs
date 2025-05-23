@@ -1,12 +1,39 @@
-﻿namespace StyleShiftBackend.Requests;
+﻿using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
-public class CreateProductRequest
+namespace StyleShiftBackend.Requests
 {
-    public string SellerID { get; set; }
-    public string CategoryID { get; set; }
-    public string Title { get; set; } = null!;
-    public string? Description { get; set; }
-    public decimal Price { get; set; }
-    public int Stock { get; set; }
-    public string ImageUrl { get; set; } = null!;
+    public class CreateProductRequest
+    {
+        [Required]
+        public string SellerID { get; set; }
+
+        [Required]
+        public string CategoryID { get; set; }
+
+        [Required]
+        [MaxLength(100)]
+        public string Title { get; set; }
+
+        public string? Description { get; set; }
+
+        [Required]
+        public decimal Price { get; set; }
+
+        public IFormFile? Image { get; set; }
+
+        [Required]
+        public string SizesJson { get; set; } 
+    }
+
+
+    public class ProductSizeRequest
+    {
+        [Required]
+        public string Size { get; set; }
+
+        [Required]
+        public int Stock { get; set; }
+    }
 }

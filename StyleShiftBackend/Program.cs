@@ -3,11 +3,29 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using StyleShiftBackend.Data;
 using StyleShiftBackend.Models;
+using StyleShiftBackend.Services;
+using StyleShiftBackend.Services.YandexStorage;
 using Swashbuckle.AspNetCore.Filters;
+
+
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+
+
+builder.Services.Configure<YandexStorageSettings>(builder.Configuration.GetSection("YandexStorageSettings"));
+builder.Services.AddSingleton<YandexStorageService>();
+
+builder.Services.AddMemoryCache();
+
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+
+        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+        options.JsonSerializerOptions.MaxDepth = 32;
+    });
+
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -37,11 +55,14 @@ builder.Services.AddCors(options =>
 builder.Services.AddDbContext<DataContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddAuthorization(); 
+builder.Services.AddAuthorization();
 
 
-builder.Services.AddIdentityApiEndpoints<CustomUser>()
-    .AddEntityFrameworkStores<DataContext>();
+builder.Services.AddIdentity<CustomUser, IdentityRole>()
+    .AddEntityFrameworkStores<DataContext>()
+    .AddDefaultTokenProviders();
+builder.Services.AddSingleton<IEmailSender<CustomUser>, NullEmailSender>();
+
 
 var app = builder.Build();
 

@@ -1,16 +1,14 @@
-﻿namespace StyleShiftBackend.Requests;
-
-public class CreaeteOrderRequest
+﻿namespace StyleShiftBackend.Requests
 {
-    public string UserID { get; set; } = string.Empty;
-    public string ProductID { get; set; } = string.Empty;
-    public int Quantity { get; set; }
-    public decimal TotalAmount { get; set; }
-    public string DeliveryAddress { get; set; }
-    public string DeliveryCity { get; set; }
-    
-    public string? DeliveryComment { get; set; }
-    public string DeliveryPhone { get; set; }
-    
-    public string SellerID { get; set; } 
+    public class CreateOrderRequest
+    {
+        public string UserID { get; set; }
+        public string ProductID { get; set; }
+        public string Size { get; set; }
+        public int Quantity { get; set; }
+        public decimal TotalAmount { get; set; }
+        public string PickupPointID { get; set; }
+        public string SellerID { get; set; }
+    }
+
 }

@@ -7,4 +7,7 @@ public class CustomUser : IdentityUser
 {
     [Key]
     public bool Verification { get; set; } = false;
+
+    public double Balance { get; set; } = 0;
+
 }

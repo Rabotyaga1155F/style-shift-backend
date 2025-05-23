@@ -1,4 +1,6 @@
-﻿namespace StyleShiftBackend.Dto;
+﻿using StyleShiftBackend.Models;
+
+namespace StyleShiftBackend.Dto;
 
 public class OrderDto
 {
@@ -11,11 +13,12 @@ public class OrderDto
     public string SellerID { get; set; }
     public DateTime OrderDate { get; set; }
     public string ProductName { get; set; }
+    public string Size { get; set; }
     public string DeliveryStatus { get; set; }
-    public string DeliveryAddress { get; set; }
-    public string DeliveryCity { get; set; }
-    
-    public string? DeliveryComment { get; set; }
-    public string DeliveryPhone { get; set; }
+    public string PickupPointName { get; set; }
+    public PickupPoint PickupPoint { get; set; } 
     public string ImageUrl { get; set; }
+
+    public string ConfirmationCode { get; set; }
 }
+
