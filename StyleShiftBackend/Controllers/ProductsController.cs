@@ -21,7 +21,7 @@ public class ProductsController : ControllerBase
     {
         var order = new List<string> { "XS", "S", "M", "L", "XL", "XXL", "XXXL" };
         var index = order.IndexOf(size.ToUpper());
-        return index >= 0 ? index : int.MaxValue; // неизвестные в конец
+        return index >= 0 ? index : int.MaxValue;
     }
 
 
@@ -85,10 +85,7 @@ public class ProductsController : ControllerBase
             .Include(p => p.Seller)
             .Include(p => p.Category)
             .Include(p => p.Sizes)
-            .ToListAsync(); // загружаем в память
-
-        if (!products.Any())
-            return NotFound();
+            .ToListAsync();
 
         var result = products.Select(p => new
         {
@@ -102,7 +99,7 @@ public class ProductsController : ControllerBase
             p.Price,
             p.ImageUrl,
             Sizes = p.Sizes
-                .OrderBy(s => IsNumericSize(s.Size))      // сортировка уже в памяти
+                .OrderBy(s => IsNumericSize(s.Size))
                 .ThenBy(s => GetSizeSortKey(s.Size))
                 .Select(s => new
                 {
@@ -114,6 +111,7 @@ public class ProductsController : ControllerBase
 
         return Ok(result);
     }
+
 
 
     [HttpGet("{id}")]
